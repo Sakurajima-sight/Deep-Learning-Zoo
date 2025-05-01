@@ -1,0 +1,44 @@
+FROM ubuntu:latest
+
+LABEL maintainer="rick <617289776@qq.com>"
+
+# 设置环境变量以避免交互式安装
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 更新软件包并安装基本工具
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    ninja-build \
+    wget \
+    curl \
+    nano \
+    python3-pip \
+    git && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 安装 CUDA 12.6
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb && \
+    dpkg -i cuda-keyring_1.1-1_all.deb && \
+    apt-get update && \
+    apt-get -y install cuda-toolkit-12-6
+
+# 设置 CUDA 环境变量
+RUN echo "export CUDA_HOME=/usr/local/cuda" >> ~/.bashrc && \
+    echo "export PATH=\$CUDA_HOME/bin:\$PATH" >> ~/.bashrc && \
+    echo "export LD_LIBRARY_PATH=\$CUDA_HOME/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc && \
+    . ~/.bashrc
+
+# 安装必要的 Python 包
+RUN pip install timm tensorboardX streamlit safetensors opencv-python matplotlib deepspeed SIP pytorchvideo ipdb --break-system-packages
+RUN pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu126 --break-system-packages
+RUN pip install flash-attn --no-build-isolation --break-system-packages
+
+# 克隆 flash-attention 仓库并安装
+RUN cd && \
+    git clone https://github.com/Dao-AILab/flash-attention.git && \
+    cd ./flash-attention/csrc/layer_norm/ && \
+    taskset -c 0-7 pip install . --break-system-packages
+
+RUN export TORCH_CUDA_ARCH_LIST="6.1;7.0;7.5;8.0;8.9" && \
+    cd /root/flash-attention/csrc/fused_dense_lib && \
+    pip install . --break-system-packages
+
