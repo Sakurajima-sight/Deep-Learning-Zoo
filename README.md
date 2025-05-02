@@ -13,6 +13,10 @@ a curated, hands-on collection of deep neural architectures I’ve studied, diss
 
 ## 🦎 Multimodal 
 
+| Model Architecture | GitHub Repository                             | Paper                                                        |
+| ------------------ | --------------------------------------------- | ------------------------------------------------------------ |
+| CLIP               | [openai/CLIP](https://github.com/openai/CLIP) | [Learning Transferable Visual Models from Natural Language Supervision](https://arxiv.org/abs/2103.00020) |
+
 ## 🖼️ Computer Vision
 
 ## 📚 Natural Language Processing
