@@ -81,6 +81,7 @@ class AttentionPool2d(nn.Module):
 
         # 多头注意力机制，仅输出 [CLS] 的注意力结果
         x, _ = F.multi_head_attention_forward(
+            # 仅使用 [CLS] token 作为唯一 query，从所有位置 (包括自身) 聚合全局信息，模拟全局池化效果
             query=x[:1], key=x, value=x,
             embed_dim_to_check=x.shape[-1],
             num_heads=self.num_heads,
