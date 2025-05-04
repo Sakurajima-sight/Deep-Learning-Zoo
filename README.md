@@ -19,6 +19,10 @@ a curated, hands-on collection of deep neural architectures I’ve studied, diss
 
 ## 🖼️ Computer Vision
 
+| Model Architecture | GitHub Repository | Paper |
+| ------------------ | ----------------- | ----- |
+| ViT (Vision Transformer) | [vit-pytorch](https://github.com/lucidrains/vit-pytorch) | [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://arxiv.org/abs/2010.11929) |
+
 ## 📚 Natural Language Processing
 
 ## 🔊 Audio
