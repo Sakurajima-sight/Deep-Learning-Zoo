@@ -2,3 +2,5 @@
 __pycache__/
 Vit/notebook/data/
 *.zip
+Transformer/notebook/result/
+Transformer/notebook/saved/
